@@ -55,6 +55,9 @@ module.exports = merge(commonConfig, {
     path: resolve(__dirname, './dist/ui'),
     publicPath: '/',
   },
+  devServer: {
+    historyApiFallback: true,
+  },
   devtool: 'source-map',
   plugins: [],
 });
