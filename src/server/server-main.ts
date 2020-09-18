@@ -8,10 +8,12 @@ import { Boom } from '@hapi/boom';
 import * as Path from 'path';
 import * as Inert from '@hapi/inert';
 import TestPlugin from './test';
+import UpdatePlugin from './update-display';
 
 const HTTP_PORT = 3001;
 const API_VERSION = 'v1';
 const uiPath = Path.join(process.cwd(), 'dist', 'ui');
+const imagePath = Path.join(process.cwd(), '../', 'resources')
 
 // Create HAPI server instances
 const server = new Server({
@@ -29,7 +31,19 @@ async function configure(): Promise<void> {
   const registerOptions = { routes: { prefix: `/${API_VERSION}` } };
   await server.register([
     TestPlugin,
+    UpdatePlugin,
   ], registerOptions);
+
+  server.route({
+    method: 'GET',
+    path: '/images/{filename*}',
+    handler: {
+      directory: {
+        path: imagePath,
+        index: true,
+      },
+    },
+  });
 
   server.route({
     method: 'GET',
