@@ -16,8 +16,8 @@ const App = (): JSX.Element => {
     <>
       <Router>
         <Switch>
-          <Route exact path="/display" component={Display} />
-          <Route exact path="/control" component={Control} />
+          <Route exact path="/view" component={Display} />
+          <Route exact path="/edit" component={Control} />
         </Switch>
       </Router>
     </>

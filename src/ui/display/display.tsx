@@ -51,7 +51,7 @@ const Display = (): JSX.Element => {
       {
         displayConfig?.assets.map((asset, idx) => {
           return (
-            <DisplayImageAsset asset={asset} key={idx} zIndex={idx} />
+            <DisplayImageAsset asset={asset} key={idx} idx={idx} />
           )
         })
       }
