@@ -9,7 +9,7 @@ export async function setLights(req: Request, h: ResponseToolkit): Promise<Respo
 
   const pixels = new Uint32Array(10);
   for (let i = 0; i < 10; i++) {
-    pixels[i] = (values.red << 16) | (values.green << 8) | (values.blue);
+    pixels[i] = (values.green << 16) | (values.red << 8) | (values.blue);
   }
 
   console.log(JSON.stringify(pixels))
