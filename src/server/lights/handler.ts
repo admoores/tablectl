@@ -8,7 +8,7 @@ export async function setLights(req: Request, h: ResponseToolkit): Promise<Respo
   const values = req.payload as SetLightsObj;
 
   const pixels = new Uint32Array(144);
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 144; i++) {
     pixels[i] = (values.red << 16) | (values.green << 8) | (values.blue);
   }
 
