@@ -12,6 +12,8 @@ export async function setLights(req: Request, h: ResponseToolkit): Promise<Respo
     pixels[i] = (values.red << 16) | (values.green << 8) | (values.blue);
   }
 
+  console.log(JSON.stringify(pixels))
+
   ws281x.render(pixels);
 
   return h.response().code(200);
