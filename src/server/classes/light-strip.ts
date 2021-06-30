@@ -21,4 +21,16 @@ export class LightStrip {
       this.strip.render(pixels);
     }
   }
+
+  setSome(indices: Array<number>, red: number, green: number, blue: number) {
+    const pixels = new Uint32Array(this.lights);
+
+    indices.forEach((idx) => {
+      if (idx >= 0 && idx < this.lights) {
+        pixels[idx] = (red << 16) | (green << 8) | blue;
+      }
+
+      this.strip.render(pixels);
+    })
+  }
 }

@@ -13,4 +13,15 @@ export default function Route(server: Hapi.Server): void {
       },
     },
   });
+
+  server.route({
+    method: 'POST',
+    path: '/lights/specific',
+    handler: LightsHandlers.setSpecificLights,
+    options: {
+      validate: {
+        payload: LightsSchemas.setSpecificLights,
+      },
+    },
+  });
 }

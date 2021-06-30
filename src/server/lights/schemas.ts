@@ -6,3 +6,10 @@ export const setLights = Joi.compile(Joi.object({
   green: Joi.number().required().min(0).max(255),
   blue: Joi.number().required().min(0).max(255),
 }));
+
+export const setSpecificLights = Joi.compile(Joi.object({
+  lights: Joi.array().items(Joi.number()).required(),
+  red: Joi.number().required().min(0).max(255),
+  green: Joi.number().required().min(0).max(255),
+  blue: Joi.number().required().min(0).max(255),
+}));
