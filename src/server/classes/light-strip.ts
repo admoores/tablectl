@@ -8,7 +8,7 @@ export class LightStrip {
   constructor(lights: number, pin: number) {
     this.pin = pin;
     this.lights = lights
-    ws281x.configure({ leds: this.lights, pin: this.pin, stripType: 'grb', brightness: 100 });
+    ws281x.configure({ leds: this.lights, pin: this.pin, stripType: 'grb' });
     this.strip = ws281x;
   }
 
