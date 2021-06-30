@@ -27,6 +27,7 @@
     "@hapi/joi": "^17.1.1",
     "fs": "0.0.1-security",
     "path": "^0.12.7",
+    "rpi-ws281x": "^1.0.36",
     "typescript": "^4.0.2"
   },
   "devDependencies": {
