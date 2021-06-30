@@ -9,8 +9,10 @@ export async function setLights(req: Request): Promise<void> {
 
   const pixels = new Uint32Array(10);
   for (let i = 0; i < 10; i++) {
-    pixels[i] = (values.red << 16) | (values.blue << 8) | (values.green);
+    pixels[i] = (values.red << 16) | (values.green << 8) | (values.blue);
   }
 
   ws281x.render(pixels);
+
+  return undefined;
 }
