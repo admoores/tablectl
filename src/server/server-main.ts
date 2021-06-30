@@ -9,6 +9,7 @@ import * as Path from 'path';
 import * as Inert from '@hapi/inert';
 import TestPlugin from './test';
 import UpdatePlugin from './update-display';
+import LightsPlugin from './lights';
 
 const HTTP_PORT = 3001;
 const API_VERSION = 'v1';
@@ -32,6 +33,7 @@ async function configure(): Promise<void> {
   await server.register([
     TestPlugin,
     UpdatePlugin,
+    LightsPlugin,
   ], registerOptions);
 
   server.route({
