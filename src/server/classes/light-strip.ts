@@ -15,7 +15,7 @@ export class LightStrip {
     }
     this.strip = ws281x;
     this.emulate = emulate;
-    this.pixels = new Uint32Array();
+    this.pixels = new Uint32Array(this.lights);
   }
 
   setAll(red: number, green: number, blue: number): void {
@@ -49,11 +49,11 @@ export class LightStrip {
     const oneOff = (red * .6 << 16) | (green * .6 << 8) | blue * .6;
     const twoOff = (red * .2 << 16) | (green * .2 << 8) | blue * .2;
 
-    this.pixels = new Uint32Array();
+    this.pixels = new Uint32Array(this.lights);
     this.strip.render(this.pixels);
 
     for (let i = 0; i < this.lights; i++) {
-      this.pixels = new Uint32Array();
+      this.pixels = new Uint32Array(this.lights);
       this.pixels[i] = center;
       if (i > 0) this.pixels[i - 1] = oneOff;
       if (i > 1) this.pixels[i - 2] = twoOff;
