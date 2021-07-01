@@ -43,4 +43,25 @@ export class LightStrip {
       this.strip.render(this.pixels);
     })
   }
+
+  runPixels(red: number, green: number, blue: number) {
+    const center = (red << 16) | (green << 8) | blue;
+    const oneOff = (red * .6 << 16) | (green * .6 << 8) | blue * .6;
+    const twoOff = (red * .2 << 16) | (green * .2 << 8) | blue * .2;
+
+    this.pixels = new Uint32Array();
+    this.strip.render(this.pixels);
+
+    for (let i = 0; i < this.lights; i++) {
+      this.pixels = new Uint32Array();
+      this.pixels[i] = center;
+      if (i > 0) this.pixels[i - 1] = oneOff;
+      if (i > 1) this.pixels[i - 2] = twoOff;
+      if (i < this.lights - 1) this.pixels[i + 1] = oneOff;
+      if (i < this.lights - 2) this.pixels[i + 2] = twoOff;
+
+      this.strip.render(this.pixels);
+      this.strip.sleep(50);
+    }
+  }
 }
