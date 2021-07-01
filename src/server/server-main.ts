@@ -65,6 +65,9 @@ async function configure(): Promise<void> {
     if ((request.response as Boom).isBoom) {
       const boomResponse = request.response as Boom;
       statusCode = boomResponse.output.statusCode;
+
+      console.error(boomResponse.message)
+
     } else {
       const response = request.response as ResponseObject;
       if (response.statusCode < 400) {
