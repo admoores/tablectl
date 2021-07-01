@@ -61,7 +61,7 @@ export class LightStrip {
       if (i < this.lights - 2) this.pixels[i + 2] = twoOff;
 
       this.strip.render(this.pixels);
-      this.strip.sleep(50);
+      // this.strip.sleep(50);
     }
   }
 }
