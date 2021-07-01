@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node dist/server/tablectl.js",
     "start:dev": "ts-node-dev --watch --respawn --clear --exit-child --no-deps --project tsconfig.json --log-error src/server/tablectl.ts",
-    "build": "tsc",
+    "build": "npm run build:ui && npm run build:server",
+    "build:server": "tsc",
     "build:ui": "webpack -p",
     "start:ui": "webpack -d --watch"
   },

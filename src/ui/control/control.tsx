@@ -83,7 +83,7 @@ const Control = (): JSX.Element => {
             backgroundSize: '100% 100%',
           }}
         >
-          <div style={{ position: 'relative', height: '100%', width: '100%' }}>
+          <div style={{ position: 'relative', height: '50%', width: '50%' }}>
             {
               displayConfig?.assets.map((asset, idx) => {
                 return (

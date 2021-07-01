@@ -1,9 +1,10 @@
 import { Request, ResponseObject, ResponseToolkit } from '@hapi/hapi';
+import { stripBasename } from 'history/PathUtils';
+import * as os from 'os';
 import { LightStrip } from '../classes/light-strip';
 import { SetLightsObj, SetSpecificLightsObj } from './types';
 
-const ws281x = require('rpi-ws281x');
-const strip = new LightStrip(144, 18);
+const strip = new LightStrip(144, 18, os.hostname() !== 'raspberrypi');
 
 export async function setLights(req: Request, h: ResponseToolkit): Promise<ResponseObject> {
   const values = req.payload as SetLightsObj;
