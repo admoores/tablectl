@@ -47,15 +47,6 @@ const Display = (): JSX.Element => {
         width: '100vw',
         height: '100vh',
       }}>
-
-      {
-        displayConfig?.assets.map((asset, idx) => {
-          return (
-            <DisplayImageAsset asset={asset} key={idx} idx={idx} />
-          )
-        })
-      }
-
     </div>
   )
 };

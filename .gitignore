@@ -1,2 +1,6 @@
 dist
 node_modules
+src/resources/maps/*
+!src/resources/maps/.gitkeep
+src/resources/assets/*
+!src/resources/assets/.gitkeep
