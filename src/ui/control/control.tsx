@@ -20,7 +20,10 @@ const Control = (): JSX.Element => {
 
   return (
     <>
-      <Grid container spacing={1}>
+      <Grid
+        container
+        spacing={1} style={{ maxWidth: '1000px', minHeight: '90vh', margin: 'auto', marginTop: '16px', border: '1px solid #434343', padding: '16px' }}
+        justify="center">
         <Grid xs={3}>
           <ColorPicker value={color} onChange={setColor} />
         </Grid>
@@ -30,8 +33,6 @@ const Control = (): JSX.Element => {
         </Grid>
 
       </Grid>
-
-      <h4>{JSON.stringify(color)}</h4>
     </>
   )
 }
