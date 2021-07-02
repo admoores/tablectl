@@ -137,43 +137,43 @@ export class LightStrip {
     }
 
     pixels = new Uint32Array(this.lights);
-    this.instructionQueue.push({ pixels, sleep: 250 });
+    this.instructionQueue.push({ pixels, sleep: 500 });
     for (let i = 0; i < this.lights; i++) {
       pixels[i] = (0 << 16) | (255 << 8) | 0;
     }
 
     pixels = new Uint32Array(this.lights);
-    this.instructionQueue.push({ pixels, sleep: 250 });
+    this.instructionQueue.push({ pixels, sleep: 500 });
     for (let i = 0; i < this.lights; i++) {
       pixels[i] = (0 << 16) | (255 << 8) | 255;
     }
 
     pixels = new Uint32Array(this.lights);
-    this.instructionQueue.push({ pixels, sleep: 250 });
+    this.instructionQueue.push({ pixels, sleep: 500 });
     for (let i = 0; i < this.lights; i++) {
       pixels[i] = (255 << 16) | (0 << 8) | 0;
     }
 
     pixels = new Uint32Array(this.lights);
-    this.instructionQueue.push({ pixels, sleep: 250 });
+    this.instructionQueue.push({ pixels, sleep: 500 });
     for (let i = 0; i < this.lights; i++) {
       pixels[i] = (255 << 16) | (0 << 8) | 255;
     }
 
     pixels = new Uint32Array(this.lights);
-    this.instructionQueue.push({ pixels, sleep: 250 });
+    this.instructionQueue.push({ pixels, sleep: 500 });
     for (let i = 0; i < this.lights; i++) {
       pixels[i] = (255 << 16) | (255 << 8) | 0;
     }
 
     pixels = new Uint32Array(this.lights);
-    this.instructionQueue.push({ pixels, sleep: 250 });
+    this.instructionQueue.push({ pixels, sleep: 500 });
     for (let i = 0; i < this.lights; i++) {
       pixels[i] = (255 << 16) | (255 << 8) | 255;
     }
 
     pixels = new Uint32Array(this.lights);
-    this.instructionQueue.push({ pixels, sleep: 250 });
+    this.instructionQueue.push({ pixels, sleep: 500 });
 
     for (let c = 0; c < 10; c++) {
       for (let j = 0; j < this.lights; j++) {
