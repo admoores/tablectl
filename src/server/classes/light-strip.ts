@@ -25,6 +25,11 @@ export class LightStrip {
     this.strip.render(this.pixels);
   }
 
+  resetPixels() {
+    this.pixels = new Uint32Array(this.lights);
+    this.renderPixels();
+  }
+
   setAll(red: number, green: number, blue: number): void {
     if (this.emulate) {
       return;
@@ -51,33 +56,30 @@ export class LightStrip {
     })
   }
 
-  runPixels(red: number, green: number, blue: number) {
+  private async runPixelsLoop(red: number, green: number, blue: number) {
     const center = (red << 16) | (green << 8) | blue;
     const oneOff = (red * .6 << 16) | (green * .6 << 8) | blue * .6;
     const twoOff = (red * .2 << 16) | (green * .2 << 8) | blue * .2;
+    while (this.loop) {
+      for (let i = 0; i < this.lights; i++) {
+        this.pixels = new Uint32Array(this.lights);
+        this.pixels[i] = center;
+        if (i > 0) this.pixels[i - 1] = oneOff;
+        if (i > 1) this.pixels[i - 2] = twoOff;
+        if (i < this.lights - 1) this.pixels[i + 1] = oneOff;
+        if (i < this.lights - 2) this.pixels[i + 2] = twoOff;
 
-    this.pixels = new Uint32Array(this.lights);
-    this.renderPixels();
-
-    this.loop = true;
-
-    new Promise(() => {
-      setTimeout(() => { this.loop = false }, 30000);
-      while (this.loop) {
-        for (let i = 0; i < this.lights; i++) {
-          this.pixels = new Uint32Array(this.lights);
-          this.pixels[i] = center;
-          if (i > 0) this.pixels[i - 1] = oneOff;
-          if (i > 1) this.pixels[i - 2] = twoOff;
-          if (i < this.lights - 1) this.pixels[i + 1] = oneOff;
-          if (i < this.lights - 2) this.pixels[i + 2] = twoOff;
-
-          this.renderPixels();
-          this.strip.sleep(50);
-        }
+        this.renderPixels();
+        this.strip.sleep(50);
       }
-    });
+    }
+  }
 
+  runPixels(red: number, green: number, blue: number) {
+    this.resetPixels();
+    this.loop = true;
+    setTimeout(() => { this.loop = false }, 30000);
+    this.runPixelsLoop(red, green, blue);
     console.log('done!!!!!!!')
   }
 
