@@ -192,7 +192,7 @@ export class LightStrip {
       if (i < this.lights - 2) walkingPixels[i + 2] = twoOff;
       if (i < this.lights - 3) walkingPixels[i + 2] = threeOff;
 
-      this.instructionQueue.push({ pixels: walkingPixels, sleep: 50 });
+      this.instructionQueue.push({ pixels: walkingPixels, sleep: 25 });
     }
 
 
