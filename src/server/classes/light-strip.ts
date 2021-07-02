@@ -79,21 +79,17 @@ export class LightStrip {
 
     const context = this;
 
-    const freshPromise = new Promise<void>((res) => { setTimeout(res, 0) });
+    for (let i = 0; i < this.lights; i++) {
+      this.pixels = new Uint32Array(this.lights);
+      this.pixels[i] = center;
+      if (i > 0) this.pixels[i - 1] = oneOff;
+      if (i > 1) this.pixels[i - 2] = twoOff;
+      if (i < this.lights - 1) this.pixels[i + 1] = oneOff;
+      if (i < this.lights - 2) this.pixels[i + 2] = twoOff;
 
-    freshPromise.then(() => {
-      for (let i = 0; i < this.lights; i++) {
-        this.pixels = new Uint32Array(this.lights);
-        this.pixels[i] = center;
-        if (i > 0) this.pixels[i - 1] = oneOff;
-        if (i > 1) this.pixels[i - 2] = twoOff;
-        if (i < this.lights - 1) this.pixels[i + 1] = oneOff;
-        if (i < this.lights - 2) this.pixels[i + 2] = twoOff;
-
-        this.instructionQueue.push(() => { context.renderPixels() });
-        this.instructionQueue.push(() => { context.strip.sleep(50) });
-      }
-    });
+      this.instructionQueue.push(() => { context.renderPixels() });
+      this.instructionQueue.push(() => { context.strip.sleep(50) });
+    }
   }
 
   setFire() {
