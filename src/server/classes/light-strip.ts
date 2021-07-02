@@ -27,6 +27,7 @@ export class LightStrip {
           const instruction = this.instructionQueue.shift();
           if (instruction) {
             this.pixels = instruction
+            this.renderPixels();
           }
         }
       }, 1);
