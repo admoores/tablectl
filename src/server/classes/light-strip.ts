@@ -9,7 +9,7 @@ export class LightStrip {
   emulate: boolean;
   pixels: Uint32Array;
 
-  instructionQueue: Array<() => void> = [];
+  instructionQueue: Array<Uint32Array> = [];
 
   constructor(lights: number, pin: number, emulate = false) {
     this.pin = pin;
@@ -26,8 +26,7 @@ export class LightStrip {
         if (this.instructionQueue.length) {
           const instruction = this.instructionQueue.shift();
           if (instruction) {
-            console.log(`did instruction! ${instruction}`)
-            instruction();
+            this.pixels = instruction
           }
         }
       }, 1);
@@ -87,8 +86,8 @@ export class LightStrip {
       if (i < this.lights - 1) this.pixels[i + 1] = oneOff;
       if (i < this.lights - 2) this.pixels[i + 2] = twoOff;
 
-      this.instructionQueue.push(() => { context.renderPixels() });
-      this.instructionQueue.push(() => { context.strip.sleep(50) });
+      this.instructionQueue.push(this.pixels);
+      // this.instructionQueue.push(() => { context.strip.sleep(50) });
     }
   }
 
