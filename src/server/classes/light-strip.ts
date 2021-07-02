@@ -9,6 +9,8 @@ export class LightStrip {
   emulate: boolean;
   pixels: Uint32Array;
 
+  instructionLoop: Array<() => void> = [];
+
   constructor(lights: number, pin: number, emulate = false) {
     this.pin = pin;
     this.lights = lights
@@ -18,6 +20,19 @@ export class LightStrip {
     this.strip = ws281x;
     this.emulate = emulate;
     this.pixels = new Uint32Array(this.lights);
+
+    new Promise<void>(() => {
+      setInterval(() => {
+        if (this.instructionLoop.length) {
+          const instruction = this.instructionLoop.shift();
+          if (instruction) {
+            console.log(`did instruction! ${instruction}`)
+            instruction();
+          }
+        }
+      }, 1);
+    });
+
   }
 
   renderPixels() {
@@ -73,8 +88,8 @@ export class LightStrip {
         if (i < this.lights - 1) this.pixels[i + 1] = oneOff;
         if (i < this.lights - 2) this.pixels[i + 2] = twoOff;
 
-        this.renderPixels();
-        this.strip.sleep(50);
+        this.instructionLoop.push(() => { this.renderPixels() });
+        this.instructionLoop.push(() => { this.strip.sleep(50) });
       }
     });
   }
