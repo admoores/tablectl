@@ -66,5 +66,5 @@ export function hslToRgb(input: HSLColor): RGBColor {
     b = hue2rgb(p, q, h - 1 / 3);
   }
 
-  return { r: r * 255, g: g * 255, b: b * 255 };
+  return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
 }

@@ -80,8 +80,11 @@ export class LightStrip {
   rainbow() {
     const rainbowPixels = new Uint32Array(this.lights);
     for (let i = 0; i < this.lights; i++) {
-      const hueValue = (360 / this.lights) * i;
-      const rgbValue: RGBColor = hslToRgb({ h: hueValue, s: 100, l: 50 })
+      const hueValue = (1 / this.lights) * i;
+      const rgbValue: RGBColor = hslToRgb({ h: hueValue, s: 1, l: .5 })
+
+      console.log(hueValue);
+      console.log(rgbValue);
 
       rainbowPixels[i] = (rgbValue.r << 16) | (rgbValue.g << 8) | rgbValue.b;
     }
