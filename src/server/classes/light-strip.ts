@@ -138,45 +138,63 @@ export class LightStrip {
     for (let i = 0; i < this.lights; i++) {
       pixels[i] = (0 << 16) | (0 << 8) | 255;
     }
+    this.instructionQueue.push({ pixels, sleep: 500 });
 
     pixels = new Uint32Array(this.lights);
-    this.instructionQueue.push({ pixels, sleep: 500 });
     for (let i = 0; i < this.lights; i++) {
       pixels[i] = (0 << 16) | (255 << 8) | 0;
     }
+    this.instructionQueue.push({ pixels, sleep: 500 });
 
     pixels = new Uint32Array(this.lights);
-    this.instructionQueue.push({ pixels, sleep: 500 });
     for (let i = 0; i < this.lights; i++) {
       pixels[i] = (0 << 16) | (255 << 8) | 255;
     }
+    this.instructionQueue.push({ pixels, sleep: 500 });
 
     pixels = new Uint32Array(this.lights);
-    this.instructionQueue.push({ pixels, sleep: 500 });
     for (let i = 0; i < this.lights; i++) {
       pixels[i] = (255 << 16) | (0 << 8) | 0;
     }
+    this.instructionQueue.push({ pixels, sleep: 500 });
 
     pixels = new Uint32Array(this.lights);
-    this.instructionQueue.push({ pixels, sleep: 500 });
     for (let i = 0; i < this.lights; i++) {
       pixels[i] = (255 << 16) | (0 << 8) | 255;
     }
+    this.instructionQueue.push({ pixels, sleep: 500 });
 
     pixels = new Uint32Array(this.lights);
-    this.instructionQueue.push({ pixels, sleep: 500 });
     for (let i = 0; i < this.lights; i++) {
       pixels[i] = (255 << 16) | (255 << 8) | 0;
     }
+    this.instructionQueue.push({ pixels, sleep: 500 });
 
     pixels = new Uint32Array(this.lights);
-    this.instructionQueue.push({ pixels, sleep: 500 });
     for (let i = 0; i < this.lights; i++) {
       pixels[i] = (255 << 16) | (255 << 8) | 255;
     }
-
-    pixels = new Uint32Array(this.lights);
     this.instructionQueue.push({ pixels, sleep: 500 });
+
+
+    const center = (255 << 16) | (255 << 8) | 255;
+    const oneOff = (255 * .75 << 16) | (255 * .75 << 8) | 255 * .75;
+    const twoOff = (255 * .5 << 16) | (255 * .5 << 8) | 255 * .5;
+    const threeOff = (255 * .25 << 16) | (255 * .25 << 8) | 255 * .25;
+
+    for (let i = 0; i < this.lights; i++) {
+      const walkingPixels = new Uint32Array(this.lights);
+      walkingPixels[i] = center;
+      if (i > 0) walkingPixels[i - 1] = oneOff;
+      if (i > 1) walkingPixels[i - 2] = twoOff;
+      if (i > 2) walkingPixels[i - 2] = threeOff;
+      if (i < this.lights - 1) walkingPixels[i + 1] = oneOff;
+      if (i < this.lights - 2) walkingPixels[i + 2] = twoOff;
+      if (i < this.lights - 3) walkingPixels[i + 2] = threeOff;
+
+      this.instructionQueue.push({ pixels: walkingPixels, sleep: 50 });
+    }
+
 
     for (let c = 0; c < 10; c++) {
       for (let j = 0; j < this.lights; j++) {
