@@ -8,7 +8,6 @@ export class LightStrip {
   strip: any;
   emulate: boolean;
   pixels: Uint32Array;
-  loop: boolean = false;
 
   constructor(lights: number, pin: number, emulate = false) {
     this.pin = pin;
@@ -56,11 +55,14 @@ export class LightStrip {
     })
   }
 
-  private async runPixelsLoop(red: number, green: number, blue: number) {
+  runPixels(red: number, green: number, blue: number) {
     const center = (red << 16) | (green << 8) | blue;
     const oneOff = (red * .6 << 16) | (green * .6 << 8) | blue * .6;
     const twoOff = (red * .2 << 16) | (green * .2 << 8) | blue * .2;
-    while (this.loop) {
+
+    this.resetPixels();
+
+    new Promise(() => {
       for (let i = 0; i < this.lights; i++) {
         this.pixels = new Uint32Array(this.lights);
         this.pixels[i] = center;
@@ -72,14 +74,8 @@ export class LightStrip {
         this.renderPixels();
         this.strip.sleep(50);
       }
-    }
-  }
+    });
 
-  runPixels(red: number, green: number, blue: number) {
-    this.resetPixels();
-    this.loop = true;
-    setTimeout(() => { this.loop = false }, 30000);
-    this.runPixelsLoop(red, green, blue);
     console.log('done!!!!!!!')
   }
 
@@ -89,14 +85,16 @@ export class LightStrip {
 
   rainbow() {
     const rainbowPixels = new Uint32Array(this.lights);
-    for (let j = 0; j < this.lights; j++) {
-      for (let i = 0; i < this.lights; i++) {
-        const hueValue = (1 / this.lights) * i;
-        const rgbValue: RGBColor = hslToRgb({ h: hueValue, s: 1, l: .5 })
-        rainbowPixels[(i + j) % this.lights] = (rgbValue.r << 16) | (rgbValue.g << 8) | rgbValue.b;
+    for (let c = 0; c < 10; c++) {
+      for (let j = 0; j < this.lights; j++) {
+        for (let i = 0; i < this.lights; i++) {
+          const hueValue = (1 / this.lights) * i;
+          const rgbValue: RGBColor = hslToRgb({ h: hueValue, s: 1, l: .5 })
+          rainbowPixels[(i + j) % this.lights] = (rgbValue.r << 16) | (rgbValue.g << 8) | rgbValue.b;
+        }
+        this.pixels = rainbowPixels;
+        this.renderPixels();
       }
-      this.pixels = rainbowPixels;
-      this.renderPixels();
     }
 
   }
