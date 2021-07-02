@@ -8,6 +8,7 @@ export class LightStrip {
   strip: any;
   emulate: boolean;
   pixels: Uint32Array;
+  loop: boolean = false;
 
   constructor(lights: number, pin: number, emulate = false) {
     this.pin = pin;
@@ -58,17 +59,22 @@ export class LightStrip {
     this.pixels = new Uint32Array(this.lights);
     this.renderPixels();
 
-    new Promise(() => {
-      for (let i = 0; i < this.lights; i++) {
-        this.pixels = new Uint32Array(this.lights);
-        this.pixels[i] = center;
-        if (i > 0) this.pixels[i - 1] = oneOff;
-        if (i > 1) this.pixels[i - 2] = twoOff;
-        if (i < this.lights - 1) this.pixels[i + 1] = oneOff;
-        if (i < this.lights - 2) this.pixels[i + 2] = twoOff;
+    this.loop = true;
+    setTimeout(() => { this.loop = false }, 30000);
 
-        this.renderPixels();
-        this.strip.sleep(50);
+    new Promise(() => {
+      while (this.loop) {
+        for (let i = 0; i < this.lights; i++) {
+          this.pixels = new Uint32Array(this.lights);
+          this.pixels[i] = center;
+          if (i > 0) this.pixels[i - 1] = oneOff;
+          if (i > 1) this.pixels[i - 2] = twoOff;
+          if (i < this.lights - 1) this.pixels[i + 1] = oneOff;
+          if (i < this.lights - 2) this.pixels[i + 2] = twoOff;
+
+          this.renderPixels();
+          this.strip.sleep(50);
+        }
       }
     });
   }
@@ -87,7 +93,6 @@ export class LightStrip {
       }
       this.pixels = rainbowPixels;
       this.renderPixels();
-      this.strip.sleep(50);
     }
 
   }
