@@ -1,12 +1,7 @@
-export interface SetLightsObj {
-  red: number;
-  green: number;
-  blue: number;
-}
+import { RGBColor } from "../utils/color";
 
-export interface SetSpecificLightsObj {
+export interface SetLightsObj extends RGBColor { }
+
+export interface SetSpecificLightsObj extends RGBColor {
   lights: Array<number>;
-  red: number;
-  green: number;
-  blue: number;
 }

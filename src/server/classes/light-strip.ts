@@ -1,3 +1,5 @@
+import { hslToRgb, RGBColor } from "../utils/color";
+
 const ws281x = require('rpi-ws281x');
 
 export class LightStrip {
@@ -18,6 +20,10 @@ export class LightStrip {
     this.pixels = new Uint32Array(this.lights);
   }
 
+  renderPixels() {
+    this.strip.render(this.pixels);
+  }
+
   setAll(red: number, green: number, blue: number): void {
     if (this.emulate) {
       return;
@@ -26,7 +32,7 @@ export class LightStrip {
     for (let i = 0; i < this.lights; i++) {
       this.pixels[i] = (red << 16) | (green << 8) | blue;
 
-      this.strip.render(this.pixels);
+      this.renderPixels();
     }
   }
 
@@ -40,7 +46,7 @@ export class LightStrip {
         this.pixels[idx] = (red << 16) | (green << 8) | blue;
       }
 
-      this.strip.render(this.pixels);
+      this.renderPixels();
     })
   }
 
@@ -50,18 +56,37 @@ export class LightStrip {
     const twoOff = (red * .2 << 16) | (green * .2 << 8) | blue * .2;
 
     this.pixels = new Uint32Array(this.lights);
-    this.strip.render(this.pixels);
+    this.renderPixels();
 
+    new Promise(() => {
+      for (let i = 0; i < this.lights; i++) {
+        this.pixels = new Uint32Array(this.lights);
+        this.pixels[i] = center;
+        if (i > 0) this.pixels[i - 1] = oneOff;
+        if (i > 1) this.pixels[i - 2] = twoOff;
+        if (i < this.lights - 1) this.pixels[i + 1] = oneOff;
+        if (i < this.lights - 2) this.pixels[i + 2] = twoOff;
+
+        this.renderPixels();
+        this.strip.sleep(50);
+      }
+    });
+  }
+
+  setFire() {
+
+  }
+
+  rainbow() {
+    const rainbowPixels = new Uint32Array(this.lights);
     for (let i = 0; i < this.lights; i++) {
-      this.pixels = new Uint32Array(this.lights);
-      this.pixels[i] = center;
-      if (i > 0) this.pixels[i - 1] = oneOff;
-      if (i > 1) this.pixels[i - 2] = twoOff;
-      if (i < this.lights - 1) this.pixels[i + 1] = oneOff;
-      if (i < this.lights - 2) this.pixels[i + 2] = twoOff;
+      const hueValue = (360 / this.lights) * i;
+      const rgbValue: RGBColor = hslToRgb({ h: hueValue, s: 100, l: 50 })
 
-      this.strip.render(this.pixels);
-      // this.strip.sleep(50);
+      rainbowPixels[i] = (rgbValue.r << 16) | (rgbValue.g << 8) | rgbValue.b;
     }
+
+    this.pixels = rainbowPixels;
+    this.renderPixels();
   }
 }
