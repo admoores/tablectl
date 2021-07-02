@@ -55,7 +55,7 @@ export class LightStrip {
     })
   }
 
-  runPixels(red: number, green: number, blue: number) {
+  async runPixels(red: number, green: number, blue: number) {
     const center = (red << 16) | (green << 8) | blue;
     const oneOff = (red * .6 << 16) | (green * .6 << 8) | blue * .6;
     const twoOff = (red * .2 << 16) | (green * .2 << 8) | blue * .2;
