@@ -60,9 +60,9 @@ export class LightStrip {
     this.renderPixels();
 
     this.loop = true;
-    setTimeout(() => { this.loop = false }, 30000);
 
     new Promise(() => {
+      setTimeout(() => { this.loop = false }, 30000);
       while (this.loop) {
         for (let i = 0; i < this.lights; i++) {
           this.pixels = new Uint32Array(this.lights);
@@ -77,6 +77,8 @@ export class LightStrip {
         }
       }
     });
+
+    console.log('done!!!!!!!')
   }
 
   setFire() {
