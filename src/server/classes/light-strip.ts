@@ -2,6 +2,11 @@ import { hslToRgb, RGBColor } from "../utils/color";
 
 const ws281x = require('rpi-ws281x');
 
+interface Instruction {
+  pixels: Uint32Array;
+  sleep?: number;
+}
+
 export class LightStrip {
   pin: number;
   lights: number;
@@ -9,7 +14,7 @@ export class LightStrip {
   emulate: boolean;
   pixels: Uint32Array;
 
-  instructionQueue: Array<Uint32Array> = [];
+  instructionQueue: Array<Instruction> = [];
 
   constructor(lights: number, pin: number, emulate = false) {
     this.pin = pin;
@@ -26,9 +31,17 @@ export class LightStrip {
         if (this.instructionQueue.length) {
           const instruction = this.instructionQueue.shift();
           if (instruction) {
-            this.pixels = instruction
+            this.instructionQueue.push(instruction);
+            this.pixels = instruction.pixels
             this.renderPixels();
+
+            if (instruction.sleep !== undefined) {
+              this.strip.sleep(instruction.sleep);
+            }
           }
+        } else if (this.pixels.some((p) => { p !== 0 })) {
+          this.pixels = new Uint32Array(this.lights);
+          this.renderPixels;
         }
       }, 1);
     });
@@ -71,6 +84,8 @@ export class LightStrip {
   }
 
   runPixels(red: number, green: number, blue: number): void {
+    this.instructionQueue = [];
+
     const center = (red << 16) | (green << 8) | blue;
     const oneOff = (red * .6 << 16) | (green * .6 << 8) | blue * .6;
     const twoOff = (red * .2 << 16) | (green * .2 << 8) | blue * .2;
@@ -87,8 +102,7 @@ export class LightStrip {
       if (i < this.lights - 1) this.pixels[i + 1] = oneOff;
       if (i < this.lights - 2) this.pixels[i + 2] = twoOff;
 
-      this.instructionQueue.push(this.pixels);
-      // this.instructionQueue.push(() => { context.strip.sleep(50) });
+      this.instructionQueue.push({ pixels: this.pixels, sleep: 50 });
     }
   }
 
