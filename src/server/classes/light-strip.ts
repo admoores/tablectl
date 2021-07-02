@@ -26,25 +26,28 @@ export class LightStrip {
     this.emulate = emulate;
     this.pixels = new Uint32Array(this.lights);
 
-    new Promise<void>(() => {
-      setInterval(() => {
-        if (this.instructionQueue.length) {
-          const instruction = this.instructionQueue.shift();
-          if (instruction) {
-            this.instructionQueue.push(instruction);
-            this.pixels = instruction.pixels
-            this.renderPixels();
+    const context = this;
+    function takeAction(): void {
+      if (context.instructionQueue.length) {
+        const instruction = context.instructionQueue.shift();
+        if (instruction) {
+          context.instructionQueue.push(instruction);
+          context.pixels = instruction.pixels
+          context.renderPixels();
 
-            if (instruction.sleep !== undefined) {
-              this.strip.sleep(instruction.sleep);
-            }
+          if (instruction.sleep !== undefined) {
+            context.strip.sleep(instruction.sleep);
           }
-        } else if (this.pixels.some((p) => { p !== 0 })) {
-          this.pixels = new Uint32Array(this.lights);
-          this.renderPixels;
         }
-      }, 1);
-    });
+      } else if (context.pixels.some((p) => { p !== 0 })) {
+        context.pixels = new Uint32Array(context.lights);
+        context.renderPixels;
+      }
+
+      setTimeout(takeAction, 1)
+    }
+
+    takeAction();
 
   }
 
