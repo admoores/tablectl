@@ -109,6 +109,8 @@ export class LightStrip {
   }
 
   rainbow() {
+    this.instructionQueue = [];
+
     const rainbowPixels = new Uint32Array(this.lights);
     for (let c = 0; c < 10; c++) {
       for (let j = 0; j < this.lights; j++) {
@@ -117,8 +119,7 @@ export class LightStrip {
           const rgbValue: RGBColor = hslToRgb({ h: hueValue, s: 1, l: .5 })
           rainbowPixels[(i + j) % this.lights] = (rgbValue.r << 16) | (rgbValue.g << 8) | rgbValue.b;
         }
-        this.pixels = rainbowPixels;
-        this.renderPixels();
+        this.instructionQueue.push({ pixels: this.pixels })
       }
     }
 
