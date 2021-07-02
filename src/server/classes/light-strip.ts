@@ -39,6 +39,9 @@ export class LightStrip {
               this.strip.sleep(instruction.sleep);
             }
           }
+        } else if (this.pixels.some((p) => { p !== 0 })) {
+          this.pixels = new Uint32Array(this.lights);
+          this.renderPixels;
         }
       }, 1);
     });
@@ -90,14 +93,14 @@ export class LightStrip {
     this.resetPixels();
 
     for (let i = 0; i < this.lights; i++) {
-      this.pixels = new Uint32Array(this.lights);
-      this.pixels[i] = center;
-      if (i > 0) this.pixels[i - 1] = oneOff;
-      if (i > 1) this.pixels[i - 2] = twoOff;
-      if (i < this.lights - 1) this.pixels[i + 1] = oneOff;
-      if (i < this.lights - 2) this.pixels[i + 2] = twoOff;
+      const walkingPixels = new Uint32Array(this.lights);
+      walkingPixels[i] = center;
+      if (i > 0) walkingPixels[i - 1] = oneOff;
+      if (i > 1) walkingPixels[i - 2] = twoOff;
+      if (i < this.lights - 1) walkingPixels[i + 1] = oneOff;
+      if (i < this.lights - 2) walkingPixels[i + 2] = twoOff;
 
-      this.instructionQueue.push({ pixels: this.pixels, sleep: 50 });
+      this.instructionQueue.push({ pixels: walkingPixels, sleep: 50 });
     }
   }
 
@@ -116,7 +119,7 @@ export class LightStrip {
           const rgbValue: RGBColor = hslToRgb({ h: hueValue, s: 1, l: .5 })
           rainbowPixels[(i + j) % this.lights] = (rgbValue.r << 16) | (rgbValue.g << 8) | rgbValue.b;
         }
-        this.instructionQueue.push({ pixels: this.pixels })
+        this.instructionQueue.push({ pixels: rainbowPixels })
       }
     }
 
