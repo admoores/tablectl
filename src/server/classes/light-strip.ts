@@ -62,7 +62,8 @@ export class LightStrip {
 
     this.resetPixels();
 
-    new Promise(() => {
+    new Promise((res) => {
+      res('test');
       for (let i = 0; i < this.lights; i++) {
         this.pixels = new Uint32Array(this.lights);
         this.pixels[i] = center;
