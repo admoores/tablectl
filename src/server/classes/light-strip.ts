@@ -39,9 +39,6 @@ export class LightStrip {
               this.strip.sleep(instruction.sleep);
             }
           }
-        } else if (this.pixels.some((p) => { p !== 0 })) {
-          this.pixels = new Uint32Array(this.lights);
-          this.renderPixels;
         }
       }, 1);
     });
