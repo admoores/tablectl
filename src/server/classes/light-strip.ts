@@ -55,27 +55,26 @@ export class LightStrip {
     })
   }
 
-  runPixels(red: number, green: number, blue: number) {
+  runPixels(red: number, green: number, blue: number): void {
     const center = (red << 16) | (green << 8) | blue;
     const oneOff = (red * .6 << 16) | (green * .6 << 8) | blue * .6;
     const twoOff = (red * .2 << 16) | (green * .2 << 8) | blue * .2;
 
     this.resetPixels();
 
-    new Promise(() => {
-      // for (let i = 0; i < this.lights; i++) {
-      //   this.pixels = new Uint32Array(this.lights);
-      //   this.pixels[i] = center;
-      //   if (i > 0) this.pixels[i - 1] = oneOff;
-      //   if (i > 1) this.pixels[i - 2] = twoOff;
-      //   if (i < this.lights - 1) this.pixels[i + 1] = oneOff;
-      //   if (i < this.lights - 2) this.pixels[i + 2] = twoOff;
+    const freshPromise = new Promise<void>((res) => { setTimeout(res, 0) });
 
-      //   this.renderPixels();
-      //   this.strip.sleep(50);
-      // }
-      while (true) {
-        const test = 'value';
+    freshPromise.then(() => {
+      for (let i = 0; i < this.lights; i++) {
+        this.pixels = new Uint32Array(this.lights);
+        this.pixels[i] = center;
+        if (i > 0) this.pixels[i - 1] = oneOff;
+        if (i > 1) this.pixels[i - 2] = twoOff;
+        if (i < this.lights - 1) this.pixels[i + 1] = oneOff;
+        if (i < this.lights - 2) this.pixels[i + 2] = twoOff;
+
+        this.renderPixels();
+        this.strip.sleep(50);
       }
     });
   }
