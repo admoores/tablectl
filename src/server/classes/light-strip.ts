@@ -92,8 +92,6 @@ export class LightStrip {
 
     this.resetPixels();
 
-    const context = this;
-
     for (let i = 0; i < this.lights; i++) {
       this.pixels = new Uint32Array(this.lights);
       this.pixels[i] = center;
