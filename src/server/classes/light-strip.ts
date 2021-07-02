@@ -70,9 +70,8 @@ export class LightStrip {
 
     for (let i = 0; i < this.lights; i++) {
       this.pixels[i] = (red << 16) | (green << 8) | blue;
-
-      this.renderPixels();
     }
+    this.renderPixels();
   }
 
   setSome(indices: Array<number>, red: number, green: number, blue: number) {
@@ -86,9 +85,8 @@ export class LightStrip {
       if (idx >= 0 && idx < this.lights) {
         this.pixels[idx] = (red << 16) | (green << 8) | blue;
       }
-
-      this.renderPixels();
     })
+    this.renderPixels();
   }
 
   runPixels(red: number, green: number, blue: number): void {
@@ -135,6 +133,8 @@ export class LightStrip {
 
     let pixels = new Uint32Array(this.lights);
     this.instructionQueue.push({ pixels, sleep: 2500 });
+
+    pixels = new Uint32Array(this.lights);
     for (let i = 0; i < this.lights; i++) {
       pixels[i] = (0 << 16) | (0 << 8) | 255;
     }
