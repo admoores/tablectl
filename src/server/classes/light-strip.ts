@@ -53,11 +53,14 @@ export class LightStrip {
   }
 
   resetPixels() {
+    this.instructionQueue = [];
     this.pixels = new Uint32Array(this.lights);
     this.renderPixels();
   }
 
   setAll(red: number, green: number, blue: number): void {
+    this.resetPixels();
+
     if (this.emulate) {
       return;
     }
@@ -70,6 +73,8 @@ export class LightStrip {
   }
 
   setSome(indices: Array<number>, red: number, green: number, blue: number) {
+    this.resetPixels();
+
     if (this.emulate) {
       return;
     }
@@ -84,8 +89,6 @@ export class LightStrip {
   }
 
   runPixels(red: number, green: number, blue: number): void {
-    this.instructionQueue = [];
-
     const center = (red << 16) | (green << 8) | blue;
     const oneOff = (red * .6 << 16) | (green * .6 << 8) | blue * .6;
     const twoOff = (red * .2 << 16) | (green * .2 << 8) | blue * .2;
@@ -109,7 +112,7 @@ export class LightStrip {
   }
 
   rainbow() {
-    this.instructionQueue = [];
+    this.resetPixels();
 
     const rainbowPixels = new Uint32Array(this.lights);
     for (let c = 0; c < 10; c++) {
