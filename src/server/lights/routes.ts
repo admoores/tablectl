@@ -41,4 +41,10 @@ export default function Route(server: Hapi.Server): void {
     path: '/lights/rainbow',
     handler: LightsHandlers.rainbow,
   });
+
+  server.route({
+    method: 'POST',
+    path: '/lights/demo',
+    handler: LightsHandlers.demo,
+  });
 }

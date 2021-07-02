@@ -125,6 +125,67 @@ export class LightStrip {
         this.instructionQueue.push({ pixels: rainbowPixels, sleep: 10 });
       }
     }
+  }
 
+  demo() {
+    this.resetPixels();
+
+    const pixels = new Uint32Array(this.lights);
+
+    this.instructionQueue.push({ pixels, sleep: 2500 });
+
+    for (let i = 0; i < this.lights; i++) {
+      pixels[i] = (0 << 16) | (0 << 8) | 255;
+    }
+
+    this.instructionQueue.push({ pixels, sleep: 250 });
+
+    for (let i = 0; i < this.lights; i++) {
+      pixels[i] = (0 << 16) | (255 << 8) | 0;
+    }
+
+    this.instructionQueue.push({ pixels, sleep: 250 });
+
+    for (let i = 0; i < this.lights; i++) {
+      pixels[i] = (0 << 16) | (255 << 8) | 255;
+    }
+
+    this.instructionQueue.push({ pixels, sleep: 250 });
+
+    for (let i = 0; i < this.lights; i++) {
+      pixels[i] = (255 << 16) | (0 << 8) | 0;
+    }
+
+    this.instructionQueue.push({ pixels, sleep: 250 });
+
+    for (let i = 0; i < this.lights; i++) {
+      pixels[i] = (255 << 16) | (0 << 8) | 255;
+    }
+
+    this.instructionQueue.push({ pixels, sleep: 250 });
+
+    for (let i = 0; i < this.lights; i++) {
+      pixels[i] = (255 << 16) | (255 << 8) | 0;
+    }
+
+    this.instructionQueue.push({ pixels, sleep: 250 });
+
+    for (let i = 0; i < this.lights; i++) {
+      pixels[i] = (255 << 16) | (255 << 8) | 255;
+    }
+
+    this.instructionQueue.push({ pixels, sleep: 250 });
+
+    for (let c = 0; c < 10; c++) {
+      for (let j = 0; j < this.lights; j++) {
+        const rainbowPixels = new Uint32Array(this.lights);
+        for (let i = 0; i < this.lights; i++) {
+          const hueValue = (1 / this.lights) * i;
+          const rgbValue: RGBColor = hslToRgb({ h: hueValue, s: 1, l: .5 })
+          rainbowPixels[(i + j) % this.lights] = (rgbValue.r << 16) | (rgbValue.g << 8) | rgbValue.b;
+        }
+        this.instructionQueue.push({ pixels: rainbowPixels, sleep: 10 });
+      }
+    }
   }
 }

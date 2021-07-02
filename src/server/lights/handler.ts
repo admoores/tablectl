@@ -33,3 +33,9 @@ export async function rainbow(req: Request, h: ResponseToolkit): Promise<Respons
   strip.rainbow();
   return h.response().code(200);
 }
+
+
+export async function demo(req: Request, h: ResponseToolkit): Promise<ResponseObject> {
+  strip.demo();
+  return h.response().code(200);
+}
