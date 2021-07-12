@@ -119,17 +119,21 @@ export class LightStrip {
     let nextColor = rgbToHsl({ r: red, g: green, b: blue });
     const pixelSet = new Uint32Array(this.lights);
 
+    let stepSize = hueRange / variationDistance;
+
     for (let i = 0; i < this.lights; i++) {
       const nextColorRGB = hslToRgb(nextColor);
       pixelSet[i] = (nextColorRGB.r << 16) | (nextColorRGB.g << 8) | (nextColorRGB.b);
 
       let newHue = nextColor.h;
 
-      if (newHue <= baseColor.h - hueRange / 2) {
-        newHue += hueRange / variationDistance;
-      } else if (newHue >= baseColor.h + hueRange / 2) {
-        newHue -= hueRange / variationDistance;
+      if (newHue > baseColor.h + hueRange) {
+        stepSize = (hueRange / variationDistance) * -1;
+      } else if (newHue < baseColor.h - hueRange) {
+        stepSize = hueRange / variationDistance;
       }
+
+      newHue += stepSize;
 
       nextColor = {
         ...nextColor,
