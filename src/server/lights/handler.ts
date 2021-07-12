@@ -36,6 +36,13 @@ export async function rainbow(req: Request, h: ResponseToolkit): Promise<Respons
   return h.response().code(200);
 }
 
+export async function randomFade(req: Request, h: ResponseToolkit): Promise<ResponseObject> {
+  const { brightness, red, green, blue, hueRange, variationDistance } = req.payload as Record<string, any>;
+
+  strip.randomFade(255, 0, 255, .25, 10)
+  return h.response().code(200);
+}
+
 
 export async function demo(req: Request, h: ResponseToolkit): Promise<ResponseObject> {
   strip.demo();

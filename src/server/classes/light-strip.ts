@@ -1,4 +1,4 @@
-import { hslToRgb, RGBColor } from "../utils/color";
+import { HSLColor, hslToRgb, RGBColor, rgbToHsl } from "../utils/color";
 
 const ws281x = require('rpi-ws281x');
 
@@ -112,19 +112,51 @@ export class LightStrip {
 
   }
 
+  randomFade(red: number, green: number, blue: number, hueRange: number, variationDistance: number) {
+    this.resetPixels();
+
+    const baseColor = rgbToHsl({ r: red, g: green, b: blue });
+    let nextColor = rgbToHsl({ r: red, g: green, b: blue });
+    const pixelSet = new Uint32Array(this.lights);
+
+    for (let i = 0; i < this.lights; i++) {
+      const nextColorRGB = hslToRgb(nextColor);
+      pixelSet[i] = (nextColorRGB.r << 16) | (nextColorRGB.g << 8) | (nextColorRGB.b);
+
+      let newHue = nextColor.h;
+
+      if (newHue <= baseColor.h - hueRange / 2) {
+        newHue += hueRange / variationDistance;
+      } else if (newHue >= baseColor.h + hueRange / 2) {
+        newHue -= hueRange / variationDistance;
+      }
+
+      nextColor = {
+        ...nextColor,
+        h: newHue
+      }
+    }
+
+    for (let j = 0; j < this.lights; j++) {
+      const rotatedPixelSet = new Uint32Array(this.lights);
+      for (let c = 0; c < this.lights; c++) {
+        rotatedPixelSet[c] = pixelSet[(c + j) % this.lights];
+      }
+      this.instructionQueue.push({ pixels: rotatedPixelSet, sleep: 10 });
+    }
+  }
+
   rainbow(brightness: number) {
     this.resetPixels();
 
-    for (let c = 0; c < 10; c++) {
-      for (let j = 0; j < this.lights; j++) {
-        const rainbowPixels = new Uint32Array(this.lights);
-        for (let i = 0; i < this.lights; i++) {
-          const hueValue = (1 / this.lights) * i;
-          const rgbValue: RGBColor = hslToRgb({ h: hueValue, s: 1, l: .5 })
-          rainbowPixels[(i + j) % this.lights] = ((rgbValue.r * (brightness / 255)) << 16) | ((rgbValue.g * (brightness / 255)) << 8) | rgbValue.b * (brightness / 255);
-        }
-        this.instructionQueue.push({ pixels: rainbowPixels, sleep: 10 });
+    for (let j = 0; j < this.lights; j++) {
+      const rainbowPixels = new Uint32Array(this.lights);
+      for (let i = 0; i < this.lights; i++) {
+        const hueValue = (1 / this.lights) * i;
+        const rgbValue: RGBColor = hslToRgb({ h: hueValue, s: 1, l: .5 })
+        rainbowPixels[(i + j) % this.lights] = ((rgbValue.r * (brightness / 255)) << 16) | ((rgbValue.g * (brightness / 255)) << 8) | rgbValue.b * (brightness / 255);
       }
+      this.instructionQueue.push({ pixels: rainbowPixels, sleep: 10 });
     }
   }
 

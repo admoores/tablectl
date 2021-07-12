@@ -52,6 +52,12 @@ export default function Route(server: Hapi.Server): void {
 
   server.route({
     method: 'POST',
+    path: '/lights/randomFade',
+    handler: LightsHandlers.randomFade,
+  });
+
+  server.route({
+    method: 'POST',
     path: '/lights/demo',
     handler: LightsHandlers.demo,
   });
