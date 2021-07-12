@@ -112,7 +112,7 @@ export class LightStrip {
 
   }
 
-  rainbow(brightness = 255) {
+  rainbow(brightness: number) {
     this.resetPixels();
 
     for (let c = 0; c < 10; c++) {
@@ -121,7 +121,7 @@ export class LightStrip {
         for (let i = 0; i < this.lights; i++) {
           const hueValue = (1 / this.lights) * i;
           const rgbValue: RGBColor = hslToRgb({ h: hueValue, s: 1, l: .5 })
-          rainbowPixels[(i + j) % this.lights] = (rgbValue.r << 16) | (rgbValue.g << 8) | rgbValue.b;
+          rainbowPixels[(i + j) % this.lights] = ((rgbValue.r * (brightness / 255)) << 16) | ((rgbValue.g * (brightness / 255)) << 8) | rgbValue.b * (brightness / 255);
         }
         this.instructionQueue.push({ pixels: rainbowPixels.map((color) => color * (brightness / 255)), sleep: 10 });
       }

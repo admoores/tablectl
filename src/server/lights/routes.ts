@@ -44,8 +44,8 @@ export default function Route(server: Hapi.Server): void {
     options: {
       validate: {
         payload: Joi.object({
-          brightness: Joi.number().optional()
-        }).optional(),
+          brightness: Joi.number().min(0).max(255).required()
+        }),
       },
     },
   });
