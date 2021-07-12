@@ -54,6 +54,17 @@ export default function Route(server: Hapi.Server): void {
     method: 'POST',
     path: '/lights/randomFade',
     handler: LightsHandlers.randomFade,
+    options: {
+      validate: {
+        payload: Joi.object({
+          red: Joi.number().min(0).max(255).required(),
+          green: Joi.number().min(0).max(255).required(),
+          blue: Joi.number().min(0).max(255).required(),
+          hueRange: Joi.number().min(0).max(1).required(),
+          variationDistance: Joi.number().min(0).max(144).required(),
+        }),
+      },
+    },
   });
 
   server.route({
