@@ -30,7 +30,9 @@ export async function runLights(req: Request, h: ResponseToolkit): Promise<Respo
 }
 
 export async function rainbow(req: Request, h: ResponseToolkit): Promise<ResponseObject> {
-  strip.rainbow();
+  const { brightness } = req.payload as Record<string, any>;
+
+  strip.rainbow(brightness);
   return h.response().code(200);
 }
 

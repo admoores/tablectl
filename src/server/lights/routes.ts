@@ -1,4 +1,5 @@
 import * as Hapi from '@hapi/hapi';
+import Joi = require('@hapi/joi');
 import * as LightsHandlers from './handler';
 import * as LightsSchemas from './schemas';
 
@@ -40,6 +41,13 @@ export default function Route(server: Hapi.Server): void {
     method: 'POST',
     path: '/lights/rainbow',
     handler: LightsHandlers.rainbow,
+    options: {
+      validate: {
+        payload: Joi.object({
+          brightness: Joi.number().optional()
+        }).optional(),
+      },
+    },
   });
 
   server.route({
