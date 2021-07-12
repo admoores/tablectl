@@ -127,9 +127,9 @@ export class LightStrip {
 
       let newHue = nextColor.h;
 
-      if (newHue > baseColor.h + hueRange / 2) {
+      if (newHue > baseColor.h + hueRange / 2 || newHue >= 1) {
         stepSize = (hueRange / variationDistance) * -1;
-      } else if (newHue < baseColor.h - hueRange / 2) {
+      } else if (newHue < baseColor.h - hueRange / 2 || newHue <= 0) {
         stepSize = hueRange / variationDistance;
       }
 
