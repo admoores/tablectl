@@ -146,7 +146,7 @@ export class LightStrip {
       for (let c = 0; c < this.lights; c++) {
         rotatedPixelSet[c] = pixelSet[(c + j) % this.lights];
       }
-      this.instructionQueue.push({ pixels: rotatedPixelSet, sleep: 10 });
+      this.instructionQueue.push({ pixels: rotatedPixelSet, sleep: 50 });
     }
   }
 
