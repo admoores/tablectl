@@ -92,5 +92,6 @@ export async function start(): Promise<Server> {
   await configure();
   await server.start();
   console.log(`Server started at: ${server.info.uri}`);
+  console.log(`Image path is ${imagePath}`);
   return server;
 }
