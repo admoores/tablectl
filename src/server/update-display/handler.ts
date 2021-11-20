@@ -13,7 +13,7 @@ let displayConfig: DisplayConfig = {
 }
 
 export async function getMaps(): Promise<Array<string>> {
-  const files = await fs.promises.readdir(path.resolve('/home/gouda/repos/resources/maps/'));
+  const files = await fs.promises.readdir(path.resolve('/home/pi/repos/tablectl/src/resources/maps'));
   return files.map(filename => `/images/maps/${filename}`);
 }
 
