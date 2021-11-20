@@ -25,7 +25,7 @@ const Control = (): JSX.Element => {
     axios.post('/v1/lights/randomFade', pattern)
   }
 
-  function submitColor(color: object): void {
+  function submitDirectColor(color: object): void {
     axios.post('/v1/lights', color)
   }
 
@@ -93,7 +93,7 @@ const Control = (): JSX.Element => {
         <Grid xs={3}>
           <Button
             onClick={() => {
-              submitColor(
+              submitDirectColor(
                 {
                   "r": 0,
                   "g": 0,
