@@ -21,6 +21,14 @@ const Control = (): JSX.Element => {
     axios.post('/v1/lights', colorPayload);
   }
 
+  function submitPattern(pattern: object): void {
+    axios.post('/v1/lights/randomFade', pattern)
+  }
+
+  function submitColor(color: object): void {
+    axios.post('/v1/lights', color)
+  }
+
   return (
     <>
       <Grid
@@ -33,6 +41,68 @@ const Control = (): JSX.Element => {
         <Grid xs={3}>
 
           <Button onClick={submitColor}>Set Color</Button>
+        </Grid>
+
+        <Grid xs={12} />
+
+        <Grid xs={3}>
+          <Button
+            onClick={() => {
+              submitPattern({
+                "red": 0,
+                "green": 255,
+                "blue": 100,
+                "hueRange": 0.15,
+                "variationDistance": 30
+              })
+            }}>
+            Greenish Fade
+          </Button>
+        </Grid>
+
+        <Grid xs={3}>
+          <Button
+            onClick={() => {
+              submitPattern({
+                "red": 255,
+                "green": 25,
+                "blue": 25,
+                "hueRange": 0.15,
+                "variationDistance": 30
+              })
+            }}>
+            Reddish Fade
+          </Button>
+        </Grid>
+
+        <Grid xs={3}>
+          <Button
+            onClick={() => {
+              submitPattern({
+                "red": 255,
+                "green": 0,
+                "blue": 255,
+                "hueRange": 0.15,
+                "variationDistance": 30
+              })
+            }}>
+            Purple Fade
+          </Button>
+        </Grid>
+
+        <Grid xs={3}>
+          <Button
+            onClick={() => {
+              submitColor(
+                {
+                  "r": 0,
+                  "g": 0,
+                  "b": 0
+                }
+              )
+            }}>
+            Clear
+          </Button>
         </Grid>
 
       </Grid>
