@@ -29,6 +29,13 @@ const Control = (): JSX.Element => {
     axios.post('/v1/lights', color)
   }
 
+  function submitMap(mapName: string): void {
+    axios.post('/v1/display', {
+      background: `images/maps/${mapName}`,
+      assets: [],
+    })
+  }
+
   return (
     <>
       <Grid
@@ -102,6 +109,42 @@ const Control = (): JSX.Element => {
               )
             }}>
             Clear
+          </Button>
+        </Grid>
+
+        <Grid xs={3}>
+          <Button
+            onClick={() => {
+              submitMap('misthaven.png')
+            }}>
+            Misthaven Map
+          </Button>
+        </Grid>
+
+        <Grid xs={3}>
+          <Button
+            onClick={() => {
+              submitMap('direwood.png')
+            }}>
+            Direwood Map
+          </Button>
+        </Grid>
+
+        <Grid xs={3}>
+          <Button
+            onClick={() => {
+              submitMap('warehouse.png')
+            }}>
+            Warehouse Map
+          </Button>
+        </Grid>
+
+        <Grid xs={3}>
+          <Button
+            onClick={() => {
+              submitMap('basement.png')
+            }}>
+            Basement Map
           </Button>
         </Grid>
 
