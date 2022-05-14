@@ -124,17 +124,7 @@ const Control = (): JSX.Element => {
         <Grid xs={3}>
           <Button
             onClick={() => {
-              submitMap("tavern.png");
-            }}
-          >
-            Tavern Map
-          </Button>
-        </Grid>
-
-        <Grid xs={3}>
-          <Button
-            onClick={() => {
-              submitMap("ailora-cave.png");
+              submitMap("cave.png");
             }}
           >
             Cave Map
@@ -144,7 +134,7 @@ const Control = (): JSX.Element => {
         <Grid xs={3}>
           <Button
             onClick={() => {
-              submitMap("ailora-outside.png");
+              submitMap("outside.png");
             }}
           >
             Cave Outside Map
