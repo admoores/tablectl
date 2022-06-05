@@ -63,6 +63,22 @@ const Control = (): JSX.Element => {
           <Button
             onClick={() => {
               submitPattern({
+                red: 200,
+                green: 200,
+                blue: 200,
+                hueRange: 0.15,
+                variationDistance: 30,
+              });
+            }}
+          >
+            Whiteish Fade
+          </Button>
+        </Grid>
+
+        <Grid xs={3}>
+          <Button
+            onClick={() => {
+              submitPattern({
                 red: 0,
                 green: 255,
                 blue: 100,
@@ -124,20 +140,10 @@ const Control = (): JSX.Element => {
         <Grid xs={3}>
           <Button
             onClick={() => {
-              submitMap("cave.png");
+              submitMap("alleyway.png");
             }}
           >
-            Cave Map
-          </Button>
-        </Grid>
-
-        <Grid xs={3}>
-          <Button
-            onClick={() => {
-              submitMap("outside.png");
-            }}
-          >
-            Cave Outside Map
+            Alleyway
           </Button>
         </Grid>
 
